@@ -4,6 +4,7 @@ import Home from './components/Home';
 import Order from './components/Order';
 import OrderForm from './components/OrderForm';
 import ReviewOrders from './components/ReviewOrders';
+import ManagePizza from './components/ManagePizzas';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Config from './Config'
 
@@ -78,6 +79,7 @@ export default class App extends Component {
           <Route path='/cart' exact render={() => <Order order={order} get={this.getFromCart} user={user.id} add={this.addToCart} remove={this.removeFromCart}  />} /> 
           <Route path="/order" render={() => <OrderForm order={order} get={this.getFromCart} user={user} />} />
           <Route path="/review-orders" render={() => <ReviewOrders admin={this.state.user.admin} api={this.api_url} />} />
+          <Route path="/manage-pizzas" component={ManagePizza} />
         </Switch>
 
       </Router>
