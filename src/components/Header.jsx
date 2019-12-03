@@ -10,6 +10,13 @@ export default class Header extends Component {
         })
     }
 
+    login(cart){
+        window.localStorage.clear()
+        window.localStorage.setItem('quantity', cart.length);
+        cart.map((data, index) => window.localStorage.setItem(`item${index}`, JSON.stringify(data)))
+        document.location.href = '/login'
+    }
+
     render() {
         const num_cart = this.props.cart.reduce((acc, pizza) => {
             if (!pizza) return acc;

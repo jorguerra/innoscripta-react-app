@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
 import Home from './components/Home';
+import Order from './components/Order';
+import OrderForm from './components/OrderForm';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 const axios = require('axios').default
@@ -12,7 +14,6 @@ export default class App extends Component {
     super(props);
     this.token = document.getElementById('home').dataset.token;
     this.api_url= '/api'
-    
   }
 
   componentDidMount(){
@@ -47,16 +48,33 @@ export default class App extends Component {
   getInfoPizza = (id) => {
     const pizza = this.state.pizzas.data.filter((p) => p.id == id);
     return pizza.length ? pizza[0] : null
-}
+  }
+
+  removeFromCart = (id) => {
+    const order = this.state.order.map((item) => {
+        if(!item || (item.id == id && item.quantity == 1)) return;
+        if(item.id == id) item.quantity--;
+        return item;
+    })
+    this.setState({order: order})
+  }
+
+  getFromCart = (id) => {
+    const item = this.state.order.filter((pizza) => (pizza && pizza.id == id));
+    return item.length ? item[0] : null;
+  }
+
 
   render() {
-    const {user, pizzas} = this.state
+    const {user, pizzas, order} = this.state
     return (
       <Router>
-        <Header user={user.id} admin={user.admin} cart={this.state.order} />
+        <Header user={user.id} admin={user.admin} cart={order} />
 
         <Switch>
-          <Route path='/' exact render={() => <Home pizzas={this.state.pizzas.data} add={this.addToCart} />} /> 
+          <Route path='/' exact render={() => <Home pizzas={pizzas.data} add={this.addToCart} />} />
+          <Route path='/cart' exact render={() => <Order order={order} get={this.getFromCart} user={user.id} add={this.addToCart} remove={this.removeFromCart}  />} /> 
+          <Route path="/order" render={() => <OrderForm order={order} get={this.getFromCart} user={user} />} />
         </Switch>
 
       </Router>
