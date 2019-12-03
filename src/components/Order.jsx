@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import Config from './../Config';
 axios = require('axios').default;
 
 export default class Cart extends Component{
@@ -13,7 +14,7 @@ export default class Cart extends Component{
     componentDidMount(){
         this.props.order.map((pizza) => {
             if(!pizza) return;
-            axios.get(`/api/pizzas/${pizza.id}`).then((resp) => {
+            axios.get(`${Config.api_url}/pizzas/${pizza.id}`).then((resp) => {
                 pizza.info = resp.data;
                 pizza.style = {backgroundImage: `url(${resp.data.photo})`}
                 this.setState((prevState) => ({pizzas: [pizza, ...prevState.pizzas] }))

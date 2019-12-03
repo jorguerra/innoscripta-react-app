@@ -5,6 +5,7 @@ import Order from './components/Order';
 import OrderForm from './components/OrderForm';
 import ReviewOrders from './components/ReviewOrders';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import Config from './Config'
 
 const axios = require('axios').default
 
@@ -14,7 +15,7 @@ export default class App extends Component {
   constructor(props){
     super(props);
     this.token = document.getElementById('home').dataset.token;
-    this.api_url= '/api'
+    this.api_url= Config.api_url
   }
 
   componentDidMount(){

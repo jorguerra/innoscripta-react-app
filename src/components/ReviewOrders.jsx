@@ -1,4 +1,5 @@
 import React from 'react'
+import Config from './../Config'
 const axios=require('axios');
 
 export default class ReviewOrders extends React.Component{
@@ -6,11 +7,10 @@ export default class ReviewOrders extends React.Component{
     constructor(props){
         super(props);
         this.token = document.getElementById('home').dataset.token;
-        this.api= props.api
     }
 
     componentDidMount(){
-        axios.get(`${this.api}/orders?api_token=${this.token}`,).then((orders) => {
+        axios.get(`${Config.api_url}/orders?api_token=${this.token}`,).then((orders) => {
             this.setState({orders: orders.data.data})
         })
     }
